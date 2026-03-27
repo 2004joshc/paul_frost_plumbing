@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paul Frost Plumbing — Fast, Reliable Plumbing Done Right</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#1E2F44',
+            aqua: '#4BB7E8',
+            sky: '#A7D8F5',
+            orange: '#F4A63A',
+            'navy-dark': '#162333',
+            'navy-light': '#2A4060',
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body: ['Poppins', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { font-family: 'Poppins', sans-serif; }
+
+    html { scroll-behavior: smooth; }
+
+    .grain-bg {
+      position: relative;
+    }
+    .grain-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-gradient {
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(75,183,232,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(75,183,232,0.10) 0%, transparent 55%),
+        linear-gradient(160deg, #162333 0%, #1E2F44 50%, #1a3550 100%);
+    }
+
+    .section-gradient {
+      background:
+        radial-gradient(ellipse 60% 50% at 90% 20%, rgba(75,183,232,0.08) 0%, transparent 60%),
+        #f0f7fc;
+    }
+
+    .card-shadow {
+      box-shadow:
+        0 2px 4px rgba(30,47,68,0.06),
+        0 8px 24px rgba(30,47,68,0.10),
+        0 24px 48px rgba(30,47,68,0.06);
+    }
+
+    .card-shadow-hover {
+      box-shadow:
+        0 4px 8px rgba(75,183,232,0.08),
+        0 16px 40px rgba(30,47,68,0.16),
+        0 32px 64px rgba(30,47,68,0.08);
+    }
+
+    .btn-orange {
+      background: linear-gradient(135deg, #F4A63A 0%, #e8942a 100%);
+      box-shadow:
+        0 2px 4px rgba(244,166,58,0.20),
+        0 8px 24px rgba(244,166,58,0.30);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    }
+    .btn-orange:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow:
+        0 4px 8px rgba(244,166,58,0.25),
+        0 16px 32px rgba(244,166,58,0.40);
+    }
+    .btn-orange:active {
+      transform: translateY(0) scale(0.99);
+      box-shadow:
+        0 1px 2px rgba(244,166,58,0.20),
+        0 4px 12px rgba(244,166,58,0.25);
+    }
+    .btn-orange:focus-visible {
+      outline: 3px solid #F4A63A;
+      outline-offset: 3px;
+    }
+
+    .btn-ghost {
+      border: 2px solid rgba(255,255,255,0.3);
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-1px);
+    }
+    .btn-ghost:active {
+      transform: translateY(0);
+    }
+    .btn-ghost:focus-visible {
+      outline: 2px solid #4BB7E8;
+      outline-offset: 3px;
+    }
+
+    .service-card {
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+    }
+    .service-card:hover .service-icon {
+      transform: scale(1.1);
+    }
+    .service-card:focus-visible {
+      outline: 3px solid #4BB7E8;
+      outline-offset: 4px;
+    }
+    .service-icon {
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .nav-link {
+      transition: color 0.15s ease, opacity 0.15s ease;
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #4BB7E8;
+      transition: width 0.2s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:hover { color: #4BB7E8; }
+    .nav-link:focus-visible { outline: 2px solid #4BB7E8; outline-offset: 4px; border-radius: 2px; }
+
+    .trust-badge {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    }
+    .trust-badge:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 4px 8px rgba(75,183,232,0.15),
+        0 12px 32px rgba(30,47,68,0.12);
+    }
+
+    .ripple-bg {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='rgba(75,183,232,0.12)' stroke-width='1'/%3E%3Ccircle cx='50' cy='50' r='28' fill='none' stroke='rgba(75,183,232,0.08)' stroke-width='1'/%3E%3Ccircle cx='50' cy='50' r='16' fill='none' stroke='rgba(75,183,232,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+      background-size: 100px 100px;
+    }
+
+    .review-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .review-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 8px 24px rgba(30,47,68,0.12),
+        0 24px 48px rgba(30,47,68,0.08);
+    }
+
+    .float-cta {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    }
+    .float-cta:hover {
+      transform: scale(1.05);
+    }
+    .float-cta:active {
+      transform: scale(0.98);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.22s; }
+    .delay-3 { animation-delay: 0.34s; }
+    .delay-4 { animation-delay: 0.46s; }
+
+    @keyframes pulse-ring {
+      0%   { transform: scale(0.95); opacity: 0.7; }
+      70%  { transform: scale(1.15); opacity: 0; }
+      100% { transform: scale(0.95); opacity: 0; }
+    }
+    .pulse-ring::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: rgba(244, 166, 58, 0.4);
+      animation: pulse-ring 2.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+    }
+
+    .divider-wave {
+      overflow: hidden;
+      line-height: 0;
+    }
+  </style>
+</head>
+<body class="bg-white overflow-x-hidden">
+
+  <!-- ═══════════════════════════════════════════
+       FLOATING CALL BUTTON (mobile)
+  ═══════════════════════════════════════════ -->
+  <a href="tel:+61400000000"
+     class="float-cta fixed bottom-6 right-6 z-50 md:hidden flex items-center gap-2 bg-orange text-white font-semibold text-sm px-5 py-3.5 rounded-full btn-orange focus-visible:outline-none"
+     aria-label="Call Paul Frost Plumbing">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M2 3h4l2 5-2.5 1.5a11 11 0 0 0 8 8L15 14l5 2v4a1 1 0 0 1-1 1A17 17 0 0 1 2 4a1 1 0 0 1 1-1z"/>
+    </svg>
+    Call Now
+  </a>
+
+  <!-- ═══════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════ -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-navy/95 backdrop-blur-sm border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aqua rounded" aria-label="Paul Frost Plumbing home">
+        <img src="Attachment.JPG" alt="Paul Frost Plumbing logo" class="h-10 w-auto" />
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
+        <a href="#services" class="nav-link text-white/80 text-sm font-medium">Services</a>
+        <a href="#why-us" class="nav-link text-white/80 text-sm font-medium">Why Us</a>
+        <a href="#reviews" class="nav-link text-white/80 text-sm font-medium">Reviews</a>
+        <a href="#contact" class="nav-link text-white/80 text-sm font-medium">Contact</a>
+      </nav>
+
+      <!-- CTA -->
+      <a href="tel:+61400000000"
+         class="btn-orange hidden md:flex items-center gap-2 text-white font-semibold text-sm px-5 py-2.5 rounded-lg focus-visible:outline-none">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2 3h4l2 5-2.5 1.5a11 11 0 0 0 8 8L15 14l5 2v4a1 1 0 0 1-1 1A17 17 0 0 1 2 4a1 1 0 0 1 1-1z"/>
+        </svg>
+        0400 000 000
+      </a>
+
+      <!-- Mobile menu toggle -->
+      <button id="menu-btn" class="md:hidden text-white/80 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aqua rounded p-1" aria-label="Open menu" aria-expanded="false">
+        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-navy-dark border-t border-white/10">
+      <nav class="flex flex-col px-5 py-4 gap-4">
+        <a href="#services" class="text-white/80 font-medium py-1">Services</a>
+        <a href="#why-us" class="text-white/80 font-medium py-1">Why Us</a>
+        <a href="#reviews" class="text-white/80 font-medium py-1">Reviews</a>
+        <a href="#contact" class="text-white/80 font-medium py-1">Contact</a>
+        <a href="tel:+61400000000" class="btn-orange text-white font-semibold text-center py-3 rounded-lg mt-2">Call 0400 000 000</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+  <section class="hero-gradient grain-bg relative min-h-screen flex items-center pt-20">
+    <!-- Decorative ripple circles -->
+    <div class="absolute inset-0 ripple-bg opacity-50 pointer-events-none"></div>
+
+    <!-- Glow blobs -->
+    <div class="absolute top-1/4 right-0 w-96 h-96 rounded-full opacity-20 pointer-events-none"
+         style="background: radial-gradient(circle, #4BB7E8 0%, transparent 70%); filter: blur(60px);"></div>
+    <div class="absolute bottom-0 left-0 w-80 h-80 rounded-full opacity-10 pointer-events-none"
+         style="background: radial-gradient(circle, #4BB7E8 0%, transparent 70%); filter: blur(80px);"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-5 py-20 md:py-32 grid md:grid-cols-2 gap-12 items-center">
+
+      <!-- Text block -->
+      <div>
+        <!-- Badge -->
+        <div class="fade-up inline-flex items-center gap-2 bg-aqua/10 border border-aqua/20 text-aqua text-xs font-semibold px-4 py-2 rounded-full mb-6 tracking-wide uppercase">
+          <span class="w-2 h-2 rounded-full bg-aqua inline-block"></span>
+          Same-Day Service Available
+        </div>
+
+        <h1 class="fade-up delay-1 font-display text-4xl md:text-5xl lg:text-6xl text-white font-bold leading-tight mb-5" style="letter-spacing: -0.03em;">
+          Fast, Reliable<br/>
+          <span style="color: #4BB7E8;">Plumbing</span> —<br/>
+          Done Right<br/>
+          the First Time.
+        </h1>
+
+        <p class="fade-up delay-2 text-white/65 text-base md:text-lg mb-8 max-w-md" style="line-height: 1.7;">
+          Same-day service. Upfront pricing. No surprises.
+          Paul Frost Plumbing fixes it properly so you never have to call twice.
+        </p>
+
+        <!-- CTAs -->
+        <div class="fade-up delay-3 flex flex-col sm:flex-row gap-3">
+          <a href="tel:+61400000000"
+             class="btn-orange relative inline-flex items-center justify-center gap-2.5 text-white font-semibold px-7 py-4 rounded-xl text-base">
+            <span class="relative pulse-ring">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2 3h4l2 5-2.5 1.5a11 11 0 0 0 8 8L15 14l5 2v4a1 1 0 0 1-1 1A17 17 0 0 1 2 4a1 1 0 0 1 1-1z"/>
+              </svg>
+            </span>
+            Call Now — 0400 000 000
+          </a>
+          <a href="#contact"
+             class="btn-ghost inline-flex items-center justify-center gap-2 text-white font-semibold px-7 py-4 rounded-xl text-base focus-visible:outline-none">
+            Book a Job
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Trust mini badges -->
+        <div class="fade-up delay-4 flex flex-wrap gap-4 mt-8">
+          <div class="flex items-center gap-2 text-white/55 text-sm">
+            <svg width="16" height="16" fill="#4BB7E8" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Licensed & Insured
+          </div>
+          <div class="flex items-center gap-2 text-white/55 text-sm">
+            <svg width="16" height="16" fill="#4BB7E8" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Response in 1 Hour
+          </div>
+          <div class="flex items-center gap-2 text-white/55 text-sm">
+            <svg width="16" height="16" fill="#4BB7E8" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+            5-Star Google Reviews
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero image card -->
+      <div class="fade-up delay-2 hidden md:block relative">
+        <div class="relative rounded-2xl overflow-hidden card-shadow" style="aspect-ratio: 4/3;">
+          <img src="https://placehold.co/720x540/1E2F44/4BB7E8?text=Expert+Plumbing+Service"
+               alt="Paul Frost Plumbing at work"
+               class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-navy/70 via-navy/10 to-transparent"></div>
+          <div class="absolute inset-0" style="background: rgba(75,183,232,0.08); mix-blend-mode: multiply;"></div>
+
+          <!-- Floating stat card -->
+          <div class="absolute bottom-5 left-5 right-5 bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl p-4 flex items-center justify-between">
+            <div>
+              <p class="text-white font-bold text-xl">500+</p>
+              <p class="text-white/60 text-xs">Jobs Completed</p>
+            </div>
+            <div class="w-px h-10 bg-white/15"></div>
+            <div>
+              <p class="text-white font-bold text-xl">4.9 ★</p>
+              <p class="text-white/60 text-xs">Google Rating</p>
+            </div>
+            <div class="w-px h-10 bg-white/15"></div>
+            <div>
+              <p class="text-white font-bold text-xl">8+ yrs</p>
+              <p class="text-white/60 text-xs">Experience</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Decorative accent -->
+        <div class="absolute -top-4 -right-4 w-24 h-24 rounded-full border-2 border-aqua/20 pointer-events-none"></div>
+        <div class="absolute -bottom-4 -left-4 w-16 h-16 rounded-full border-2 border-orange/20 pointer-events-none"></div>
+      </div>
+    </div>
+
+    <!-- Wave divider -->
+    <div class="divider-wave absolute bottom-0 left-0 right-0">
+      <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 60L60 50C120 40 240 20 360 18C480 16 600 32 720 38C840 44 960 40 1080 32C1200 24 1320 12 1380 6L1440 0V60H0Z" fill="white"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       TRUST STRIP
+  ═══════════════════════════════════════════ -->
+  <section class="bg-white py-10 border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+        <div class="trust-badge card-shadow bg-white rounded-2xl p-5 flex items-center gap-4 border border-gray-100/80">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style="background: rgba(75,183,232,0.12);">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#4BB7E8" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-navy text-sm">Licensed &amp; Insured</p>
+            <p class="text-gray-400 text-xs" style="line-height: 1.5;">Fully certified tradesperson</p>
+          </div>
+        </div>
+
+        <div class="trust-badge card-shadow bg-white rounded-2xl p-5 flex items-center gap-4 border border-gray-100/80">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style="background: rgba(244,166,58,0.12);">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#F4A63A" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-navy text-sm">Same-Day Response</p>
+            <p class="text-gray-400 text-xs" style="line-height: 1.5;">Within 1 hour, guaranteed</p>
+          </div>
+        </div>
+
+        <div class="trust-badge card-shadow bg-white rounded-2xl p-5 flex items-center gap-4 border border-gray-100/80">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style="background: rgba(75,183,232,0.12);">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#4BB7E8" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-navy text-sm">Upfront Pricing</p>
+            <p class="text-gray-400 text-xs" style="line-height: 1.5;">No hidden costs, ever</p>
+          </div>
+        </div>
+
+        <div class="trust-badge card-shadow bg-white rounded-2xl p-5 flex items-center gap-4 border border-gray-100/80">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style="background: rgba(244,166,58,0.12);">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#F4A63A" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-navy text-sm">4.9★ on Google</p>
+            <p class="text-gray-400 text-xs" style="line-height: 1.5;">100+ five-star reviews</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SERVICES
+  ═══════════════════════════════════════════ -->
+  <section id="services" class="section-gradient py-20 md:py-28">
+    <div class="max-w-6xl mx-auto px-5">
+
+      <!-- Heading -->
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <p class="text-aqua font-semibold text-sm tracking-widest uppercase mb-3">What We Fix</p>
+        <h2 class="font-display text-3xl md:text-4xl text-navy font-bold mb-4" style="letter-spacing: -0.03em;">
+          Every Job, Done Properly.
+        </h2>
+        <p class="text-gray-500 text-base" style="line-height: 1.7;">
+          From burst pipes at midnight to a leaking tap on the weekend — we show up, we fix it, and we don't leave until you're sorted.
+        </p>
+      </div>
+
+      <!-- Services grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <!-- Emergency Plumbing -->
+        <a href="#contact" class="service-card card-shadow bg-white rounded-2xl p-6 border border-gray-100 block focus-visible:outline-none group">
+          <div class="service-icon w-14 h-14 rounded-xl mb-5 flex items-center justify-center" style="background: rgba(244,166,58,0.10);">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#F4A63A" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-navy text-base mb-2">Emergency Plumbing</h3>
+          <p class="text-gray-400 text-sm" style="line-height: 1.7;">Burst pipes, flooding, or no water — we respond fast, any time of day.</p>
+          <div class="mt-4 flex items-center gap-1.5 text-aqua text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Book Now
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Leak Repairs -->
+        <a href="#contact" class="service-card card-shadow bg-white rounded-2xl p-6 border border-gray-100 block focus-visible:outline-none group">
+          <div class="service-icon w-14 h-14 rounded-xl mb-5 flex items-center justify-center" style="background: rgba(75,183,232,0.10);">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#4BB7E8" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.78 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-navy text-base mb-2">Leak Repairs</h3>
+          <p class="text-gray-400 text-sm" style="line-height: 1.7;">Taps, pipes, toilets — found fast and fixed properly so they don't come back.</p>
+          <div class="mt-4 flex items-center gap-1.5 text-aqua text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Book Now
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Hot Water Systems -->
+        <a href="#contact" class="service-card card-shadow bg-white rounded-2xl p-6 border border-gray-100 block focus-visible:outline-none group">
+          <div class="service-icon w-14 h-14 rounded-xl mb-5 flex items-center justify-center" style="background: rgba(75,183,232,0.10);">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#4BB7E8" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-navy text-base mb-2">Hot Water Systems</h3>
+          <p class="text-gray-400 text-sm" style="line-height: 1.7;">Supply, install, and repair — electric, gas, and solar hot water sorted same day.</p>
+          <div class="mt-4 flex items-center gap-1.5 text-aqua text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Book Now
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Drain Clearing -->
+        <a href="#contact" class="service-card card-shadow bg-white rounded-2xl p-6 border border-gray-100 block focus-visible:outline-none group">
+          <div class="service-icon w-14 h-14 rounded-xl mb-5 flex items-center justify-center" style="background: rgba(244,166,58,0.10);">
+            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#F4A63A" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-navy text-base mb-2">Drain Clearing</h3>
+          <p class="text-gray-400 text-sm" style="line-height: 1.7;">Blocked drains cleared properly — no band-aids, no callbacks, no mess left behind.</p>
+          <div class="mt-4 flex items-center gap-1.5 text-aqua text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Book Now
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- More services -->
+      <div class="mt-8 grid sm:grid-cols-3 gap-4">
+        <div class="bg-white/70 rounded-xl px-5 py-4 flex items-center gap-3 border border-gray-100">
+          <svg width="18" height="18" fill="#4BB7E8" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span class="text-navy text-sm font-medium">Toilet Repairs &amp; Replacement</span>
+        </div>
+        <div class="bg-white/70 rounded-xl px-5 py-4 flex items-center gap-3 border border-gray-100">
+          <svg width="18" height="18" fill="#4BB7E8" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span class="text-navy text-sm font-medium">Bathroom &amp; Kitchen Fit-Outs</span>
+        </div>
+        <div class="bg-white/70 rounded-xl px-5 py-4 flex items-center gap-3 border border-gray-100">
+          <svg width="18" height="18" fill="#4BB7E8" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span class="text-navy text-sm font-medium">Pipe Relining &amp; Replacement</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       WHY PAUL FROST
+  ═══════════════════════════════════════════ -->
+  <section id="why-us" class="bg-navy grain-bg relative py-20 md:py-28 overflow-hidden">
+    <!-- Decorative glow -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-64 pointer-events-none"
+         style="background: radial-gradient(ellipse at center, rgba(75,183,232,0.12) 0%, transparent 70%);"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12 items-center">
+
+      <!-- Image -->
+      <div class="relative order-2 md:order-1">
+        <div class="relative rounded-2xl overflow-hidden" style="aspect-ratio: 1/1; max-width: 480px;">
+          <img src="https://placehold.co/480x480/162333/4BB7E8?text=Paul+Frost"
+               alt="Paul Frost — licensed plumber"
+               class="w-full h-full object-cover"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent"></div>
+          <div class="absolute inset-0" style="background: rgba(75,183,232,0.06); mix-blend-mode: multiply;"></div>
+          <div class="absolute bottom-5 left-5 right-5">
+            <p class="text-white font-bold text-lg">Paul Frost</p>
+            <p class="text-aqua text-sm">Licensed Plumber — 8+ Years</p>
+          </div>
+        </div>
+        <!-- Accent circle -->
+        <div class="absolute -top-6 -left-6 w-32 h-32 rounded-full border border-aqua/15 pointer-events-none"></div>
+        <div class="absolute -bottom-4 -right-4 w-20 h-20 rounded-full border border-orange/15 pointer-events-none"></div>
+      </div>
+
+      <!-- Content -->
+      <div class="order-1 md:order-2">
+        <p class="text-aqua font-semibold text-sm tracking-widest uppercase mb-3">Why Choose Paul</p>
+        <h2 class="font-display text-3xl md:text-4xl text-white font-bold mb-5" style="letter-spacing: -0.03em;">
+          Friendly gets you attention.<br/>
+          <span style="color: #4BB7E8;">Trust gets you paid.</span>
+        </h2>
+        <p class="text-white/60 text-base mb-8" style="line-height: 1.7;">
+          We fix it properly the first time — no leaks, no callbacks.
+          You get a straight answer, a real price, and a plumber who turns up when he says he will.
+        </p>
+
+        <div class="flex flex-col gap-5">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center mt-0.5" style="background: rgba(75,183,232,0.15);">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#4BB7E8" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-white font-semibold text-sm mb-1">No jargon, no runaround</p>
+              <p class="text-white/50 text-sm" style="line-height: 1.7;">Clear communication from quote to completion — you always know what's happening.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center mt-0.5" style="background: rgba(244,166,58,0.15);">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#F4A63A" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-white font-semibold text-sm mb-1">We show up on time, every time</p>
+              <p class="text-white/50 text-sm" style="line-height: 1.7;">We respect your time. No 4-hour wait windows — we're there when we say we are.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center mt-0.5" style="background: rgba(75,183,232,0.15);">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#4BB7E8" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-white font-semibold text-sm mb-1">Workmanship guarantee</p>
+              <p class="text-white/50 text-sm" style="line-height: 1.7;">All work is fully guaranteed. If something isn't right, we fix it — no charge, no argument.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       REVIEWS
+  ═══════════════════════════════════════════ -->
+  <section id="reviews" class="bg-white py-20 md:py-28">
+    <div class="max-w-6xl mx-auto px-5">
+
+      <div class="text-center max-w-xl mx-auto mb-14">
+        <p class="text-aqua font-semibold text-sm tracking-widest uppercase mb-3">Customer Reviews</p>
+        <h2 class="font-display text-3xl md:text-4xl text-navy font-bold mb-3" style="letter-spacing: -0.03em;">
+          Don't Take Our Word for It
+        </h2>
+        <div class="flex items-center justify-center gap-2 mt-2">
+          <div class="flex">
+            <span style="color: #F4A63A; font-size: 20px;">★★★★★</span>
+          </div>
+          <p class="text-gray-400 text-sm">4.9 out of 5 — 100+ Google Reviews</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5">
+
+        <div class="review-card card-shadow bg-white rounded-2xl p-6 border border-gray-100">
+          <div class="flex mb-3" style="color: #F4A63A;">★★★★★</div>
+          <p class="text-gray-600 text-sm mb-5" style="line-height: 1.7;">
+            "Paul showed up within the hour and fixed our burst pipe in under 45 minutes. Upfront price, no drama. Would 100% use again — highly recommended."
+          </p>
+          <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+            <div class="w-9 h-9 rounded-full bg-sky flex items-center justify-center text-navy font-bold text-sm">S</div>
+            <div>
+              <p class="text-navy font-semibold text-sm">Sarah M.</p>
+              <p class="text-gray-400 text-xs">Homeowner, Melbourne</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card card-shadow bg-navy rounded-2xl p-6 border border-navy-light">
+          <div class="flex mb-3" style="color: #F4A63A;">★★★★★</div>
+          <p class="text-white/70 text-sm mb-5" style="line-height: 1.7;">
+            "Had a blocked drain that two other plumbers couldn't sort. Paul diagnosed it properly, fixed it the same day. Finally someone who actually knows what they're doing."
+          </p>
+          <div class="flex items-center gap-3 pt-4 border-t border-white/10">
+            <div class="w-9 h-9 rounded-full bg-aqua/20 flex items-center justify-center text-aqua font-bold text-sm">J</div>
+            <div>
+              <p class="text-white font-semibold text-sm">James T.</p>
+              <p class="text-white/40 text-xs">Property Manager</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card card-shadow bg-white rounded-2xl p-6 border border-gray-100">
+          <div class="flex mb-3" style="color: #F4A63A;">★★★★★</div>
+          <p class="text-gray-600 text-sm mb-5" style="line-height: 1.7;">
+            "Called at 7am with no hot water, Paul was there by 9am and had a new system installed by lunch. Clean, professional, price was exactly what he quoted."
+          </p>
+          <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+            <div class="w-9 h-9 rounded-full bg-sky flex items-center justify-center text-navy font-bold text-sm">R</div>
+            <div>
+              <p class="text-navy font-semibold text-sm">Rachel K.</p>
+              <p class="text-gray-400 text-xs">Homeowner, Brighton</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CONTACT / BOOKING CTA
+  ═══════════════════════════════════════════ -->
+  <section id="contact" class="section-gradient py-20 md:py-28">
+    <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12 items-start">
+
+      <!-- Left: contact info -->
+      <div>
+        <p class="text-aqua font-semibold text-sm tracking-widest uppercase mb-3">Get In Touch</p>
+        <h2 class="font-display text-3xl md:text-4xl text-navy font-bold mb-5" style="letter-spacing: -0.03em;">
+          Ready to Get It Fixed?
+        </h2>
+        <p class="text-gray-500 text-base mb-8" style="line-height: 1.7;">
+          Call us now for same-day service, or fill out the form and we'll get back to you within the hour.
+        </p>
+
+        <div class="flex flex-col gap-5">
+          <a href="tel:+61400000000"
+             class="btn-orange inline-flex items-center gap-3 text-white font-semibold px-6 py-4 rounded-xl text-base w-fit focus-visible:outline-none">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2 3h4l2 5-2.5 1.5a11 11 0 0 0 8 8L15 14l5 2v4a1 1 0 0 1-1 1A17 17 0 0 1 2 4a1 1 0 0 1 1-1z"/>
+            </svg>
+            0400 000 000
+          </a>
+
+          <a href="mailto:paul@paulfrostplumbing.com.au"
+             class="inline-flex items-center gap-3 text-navy font-medium text-sm hover:text-aqua focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aqua rounded transition-colors duration-150">
+            <div class="w-10 h-10 rounded-lg bg-aqua/10 flex items-center justify-center shrink-0">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4BB7E8" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            paul@paulfrostplumbing.com.au
+          </a>
+
+          <div class="flex items-center gap-3 text-navy font-medium text-sm">
+            <div class="w-10 h-10 rounded-lg bg-aqua/10 flex items-center justify-center shrink-0">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#4BB7E8" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+            Melbourne &amp; Surrounding Suburbs
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="card-shadow bg-white rounded-2xl p-7 border border-gray-100">
+        <h3 class="font-semibold text-navy text-lg mb-6">Book a Job</h3>
+        <form class="flex flex-col gap-4" onsubmit="return false;">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label for="fname" class="block text-navy font-medium text-sm mb-1.5">First Name</label>
+              <input id="fname" type="text" placeholder="John"
+                     class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-navy placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-aqua/50 focus:border-aqua transition-colors duration-150" />
+            </div>
+            <div>
+              <label for="lname" class="block text-navy font-medium text-sm mb-1.5">Last Name</label>
+              <input id="lname" type="text" placeholder="Smith"
+                     class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-navy placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-aqua/50 focus:border-aqua transition-colors duration-150" />
+            </div>
+          </div>
+          <div>
+            <label for="phone" class="block text-navy font-medium text-sm mb-1.5">Phone Number</label>
+            <input id="phone" type="tel" placeholder="04XX XXX XXX"
+                   class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-navy placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-aqua/50 focus:border-aqua transition-colors duration-150" />
+          </div>
+          <div>
+            <label for="service" class="block text-navy font-medium text-sm mb-1.5">Service Needed</label>
+            <select id="service"
+                    class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-navy focus:outline-none focus:ring-2 focus:ring-aqua/50 focus:border-aqua transition-colors duration-150">
+              <option value="">Select a service...</option>
+              <option>Emergency Plumbing</option>
+              <option>Leak Repair</option>
+              <option>Hot Water System</option>
+              <option>Drain Clearing</option>
+              <option>Toilet Repair</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="message" class="block text-navy font-medium text-sm mb-1.5">Tell us what's happening</label>
+            <textarea id="message" rows="3" placeholder="Briefly describe the issue..."
+                      class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-navy placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-aqua/50 focus:border-aqua transition-colors duration-150 resize-none"></textarea>
+          </div>
+          <button type="submit"
+                  class="btn-orange w-full text-white font-semibold py-3.5 rounded-xl text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange">
+            Send Enquiry
+          </button>
+          <p class="text-gray-400 text-xs text-center" style="line-height: 1.5;">We'll call you back within the hour during business hours.</p>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="bg-navy-dark border-t border-white/5 py-10">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <img src="Attachment.JPG" alt="Paul Frost Plumbing" class="h-10 w-auto" />
+        </div>
+        <div class="flex flex-wrap justify-center gap-6 text-white/40 text-sm">
+          <a href="#services" class="hover:text-white/70 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-aqua rounded">Services</a>
+          <a href="#why-us" class="hover:text-white/70 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-aqua rounded">Why Us</a>
+          <a href="#reviews" class="hover:text-white/70 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-aqua rounded">Reviews</a>
+          <a href="#contact" class="hover:text-white/70 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-aqua rounded">Contact</a>
+        </div>
+        <p class="text-white/25 text-xs text-center">© 2026 Paul Frost Plumbing. All rights reserved. Lic. No. 000000</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded', String(!open));
+    });
+    // Close menu on nav link click
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+</body>
+</html>
